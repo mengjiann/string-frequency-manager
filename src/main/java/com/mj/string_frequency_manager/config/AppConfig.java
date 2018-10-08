@@ -19,5 +19,10 @@ public class AppConfig {
     @Value("${spring.redis.port}")
     private Integer redisPort;
 
+    @Value("${app.generate.init.data}")
+    private Boolean generateInitData;
+
+    @Value("${app.load.init.data}")
+    private Boolean loadInitData;
 
 }
