@@ -16,7 +16,7 @@ public class Past24HourStringFrequencyUpdaterTask {
         this.past24HourStringFrequencyUpdater = past24HourStringFrequencyUpdater;
     }
 
-    @Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "0 0 * * * ?")
     public void execute(){
 
         LocalDateTime hourToRemove = LocalDateTime.now().minusHours(24);

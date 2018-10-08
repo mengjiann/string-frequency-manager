@@ -34,7 +34,7 @@ public class StringRecordLogFileProcessorTask {
      *
      * log file for the previous hour will be available.
      */
-    @Scheduled(cron = "1 * * * * ?")
+    @Scheduled(cron = "1 0 * * * ?")
     public void execute(){
 
         LocalDateTime now = LocalDateTime.now();
