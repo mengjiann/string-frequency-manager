@@ -15,9 +15,12 @@ import java.util.List;
 public class AppErrorResponse {
 
     @Builder
-    public AppErrorResponse(String error, AppErrorCode errorCode, HttpStatus httpStatus) {
+    public AppErrorResponse(String error, List<String> errors, AppErrorCode errorCode, HttpStatus httpStatus) {
         if(error != null) {
             this.errors = Collections.singletonList(error);
+        }
+        if(errors != null) {
+            this.errors = errors;
         }
         if(errorCode != null) {
             this.type = errorCode.name();

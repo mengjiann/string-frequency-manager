@@ -2,9 +2,11 @@ package com.mj.string_frequency_manager.string_frequency.web;
 
 import com.mj.string_frequency_manager.ApplicationInitializationUtil;
 import com.mj.string_frequency_manager.config.RedisServerConfig;
+import com.mj.string_frequency_manager.string_frequency.StringFrequencyApiResponseMapper;
 import com.mj.string_frequency_manager.string_frequency.StringFrequencyGetter;
 import com.mj.string_frequency_manager.string_frequency.domain.Past24HourStringFrequency;
 import com.mj.string_frequency_manager.string_frequency.domain.StringFrequency;
+import com.mj.string_frequency_manager.string_frequency.domain.api.StringFrequencyApiResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -35,6 +37,9 @@ public class StringFrequencyRestControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
+    private StringFrequencyApiResponseMapper stringFrequencyApiResponseMapper;
+
+    @MockBean
     private RedisServer redisServer;
 
     @MockBean
@@ -48,8 +53,13 @@ public class StringFrequencyRestControllerTest {
 
         Past24HourStringFrequency stringFrequency = new Past24HourStringFrequency("abc");
 
+        Past24HourStringFrequency expectedOutput = new Past24HourStringFrequency("abc",10);
+
         given(stringFrequencyGetter.getByStringFrequency(stringFrequency))
-                .willReturn(Optional.of(new Past24HourStringFrequency("abc",10)));
+                .willReturn(Optional.of(expectedOutput));
+
+        given(stringFrequencyApiResponseMapper.map(expectedOutput))
+                .willReturn(StringFrequencyApiResponse.builder().response("true").build());
 
         mockMvc.perform(get("/isStringValid?string=abc"))
                 .andExpect(status().isOk())
@@ -61,8 +71,13 @@ public class StringFrequencyRestControllerTest {
 
         Past24HourStringFrequency stringFrequency = new Past24HourStringFrequency("abc");
 
+        Past24HourStringFrequency expectedOutput = new Past24HourStringFrequency("abc",3);
+
         given(stringFrequencyGetter.getByStringFrequency(stringFrequency))
-                .willReturn(Optional.of(new Past24HourStringFrequency("abc",3)));
+                .willReturn(Optional.of(expectedOutput));
+
+        given(stringFrequencyApiResponseMapper.map(expectedOutput))
+                .willReturn(StringFrequencyApiResponse.builder().response("false").build());
 
         mockMvc.perform(get("/isStringValid?string=abc"))
                 .andExpect(status().isOk())
