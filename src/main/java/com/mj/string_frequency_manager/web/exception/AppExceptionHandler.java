@@ -5,6 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.NoHandlerFoundException;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.stream.Collectors;
 
 @Slf4j
 @ControllerAdvice
@@ -21,6 +26,36 @@ public class AppExceptionHandler {
 
         AppErrorResponse errorResponse = ex.getErrorResponse() == null ? getGenericErrorCode(): ex.getErrorResponse();
         return ResponseEntity.status(errorResponse.getStatus()).body(errorResponse);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<AppErrorResponse> handleAppRestException(ConstraintViolationException ex){
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                AppErrorResponse.builder()
+                        .errorCode(AppErrorCode.STRING_FREQUENCY_RETRIEVAL_VALIDATION_ERROR)
+                        .errors(ex.getConstraintViolations().stream()
+                                .map(ConstraintViolation::getMessage)
+                                .collect(Collectors.toList()))
+                        .build());
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseEntity<AppErrorResponse> handleResourceNotFoundException(NoHandlerFoundException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                AppErrorResponse.builder()
+                        .errorCode(AppErrorCode.NO_HANDLER_ERROR)
+                        .error(ex.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler({ Exception.class })
+    public ResponseEntity<AppErrorResponse> handleAll(Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                AppErrorResponse.builder()
+                        .errorCode(AppErrorCode.GENERIC_ERROR)
+                        .error(e.getMessage())
+                        .build());
     }
 
 

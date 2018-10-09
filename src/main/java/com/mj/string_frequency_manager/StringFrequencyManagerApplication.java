@@ -7,11 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import redis.embedded.RedisServer;
 
 import javax.annotation.PreDestroy;
 
 @Slf4j
+@EnableWebMvc
 @EnableScheduling
 @SpringBootApplication
 public class StringFrequencyManagerApplication implements CommandLineRunner {
