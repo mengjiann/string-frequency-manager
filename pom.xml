@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>string-frequency-manager</name>
-	<description>Demo project for Spring Boot</description>
+	<description>An application to monitor log files in a specific directory and return true if the string appears for more than 5 times.</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -84,6 +84,23 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<configuration>
+					<imageName>string-frequency-manager</imageName>
+					<dockerDirectory>docker</dockerDirectory>
+					<resources>
+						<resource>
+							<targetPath>/target</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
