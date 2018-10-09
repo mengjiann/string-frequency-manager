@@ -4,12 +4,12 @@
 
 # Instruction
 - Clone the project to your local machine.
-- Open Terminal and navigate to the root directory of the project: mvn clean package docker:build
+- Open Terminal and navigate to the root directory of the project: `mvn clean package docker:build`
 - When the image is built successfully, run the following in your Terminal
 
 `docker run -v <LOCAL DIRECTORY CONTAINING THE LOG FILES>:/data -it -d -p 8085:8080 -e SPRING_APPLICATION_JSON='{"spring": {"profiles": {"active": "docker"}}}' --name string-frequency-manager string-frequency-manager`
 
-- After that, access the site at http://localhost:8085/isStringValid?string=<STRING_ID> 
+- After that, access the site at `http://localhost:8085/isStringValid?string=<STRING_ID> `
 
 # Requirements
 - Upon the zero-th minute of every hour, a new log file that contains the data in the last hour will be generated and be placed into the same folder, the file name format is string-generation-{yyyymmddhh}.log​.
@@ -27,4 +27,4 @@
  
 # Prerequisite
 - Docker 
-- Apache Maven as Java build tool
+- Apache Maven
