@@ -1,6 +1,5 @@
 package com.mj.string_frequency_manager.string_frequency_hourly_updater_task;
 
-import com.mj.string_frequency_manager.config.AppConfig;
 import com.mj.string_frequency_manager.string_frequency.HourlyStringFrequencyMapper;
 import com.mj.string_frequency_manager.string_frequency.StringFrequencyGetter;
 import com.mj.string_frequency_manager.string_frequency.StringFrequencyMapper;
@@ -8,14 +7,12 @@ import com.mj.string_frequency_manager.string_frequency.StringFrequencyUpdater;
 import com.mj.string_frequency_manager.string_frequency.domain.HourlyStringFrequency;
 import com.mj.string_frequency_manager.string_frequency.domain.Past24HourStringFrequency;
 import com.mj.string_frequency_manager.string_frequency.domain.StringFrequency;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import redis.embedded.RedisServer;
 
 import java.time.LocalDateTime;
 
@@ -25,9 +22,6 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(properties = {"spring.profiles.active=test"})
 public class Past24HourStringFrequencyUpdaterTest {
-
-    @Autowired
-    private AppConfig appConfig;
 
     @Autowired
     private StringFrequencyGetter stringFrequencyGetter;
@@ -43,22 +37,12 @@ public class Past24HourStringFrequencyUpdaterTest {
 
     private Past24HourStringFrequencyUpdater past24HourStringFrequencyUpdater;
 
-    private RedisServer redisServer;
-
     @Before
     public void setUp() throws Exception {
-
-        redisServer = new RedisServer(appConfig.getRedisPort());
-        redisServer.start();
 
         past24HourStringFrequencyUpdater = new Past24HourStringFrequencyUpdater(
             stringFrequencyGetter,stringFrequencyUpdater,stringFrequencyMapper
         );
-    }
-
-    @After
-    public void tearDown(){
-        redisServer.stop();
     }
 
     @Test

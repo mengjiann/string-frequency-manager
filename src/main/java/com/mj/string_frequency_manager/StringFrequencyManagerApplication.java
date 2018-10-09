@@ -1,19 +1,15 @@
 package com.mj.string_frequency_manager;
 
-import com.mj.string_frequency_manager.config.constant.AppConstant;
-import com.mj.string_frequency_manager.string_record.exception.InvalidStringRecordLogFileException;
+import com.mj.string_frequency_manager.util.InputValidator;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import redis.embedded.Redis;
 import redis.embedded.RedisServer;
 
 import javax.annotation.PreDestroy;
-import java.io.File;
-import java.time.LocalDateTime;
 
 @Slf4j
 @EnableScheduling
@@ -38,13 +34,15 @@ public class StringFrequencyManagerApplication implements CommandLineRunner {
 	 */
 	@Override
 	public void run(String... args) throws Exception {
-		appLoadTestData.generateTestData();
-		appLoadTestData.loadInitData();
+			appLoadTestData.generateTestData();
+			appLoadTestData.loadInitData();
 	}
 
 	@PreDestroy
 	public void shutdown(){
-		log.info("Stopping redis server.");
-		redisServer.stop();
+		if(!InputValidator.isInvalid(redisServer) && redisServer.isActive()){
+		    log.info("Stopping redis server.");
+		    redisServer.stop();
+        }
 	}
 }

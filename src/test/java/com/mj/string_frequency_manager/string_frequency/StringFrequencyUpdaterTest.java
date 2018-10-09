@@ -1,6 +1,5 @@
 package com.mj.string_frequency_manager.string_frequency;
 
-import com.mj.string_frequency_manager.config.AppConfig;
 import com.mj.string_frequency_manager.string_frequency.domain.Past24HourStringFrequency;
 import com.mj.string_frequency_manager.string_frequency.domain.StringFrequency;
 import org.junit.After;
@@ -10,9 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import redis.embedded.RedisServer;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,9 +19,6 @@ import static org.junit.Assert.assertThat;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class StringFrequencyUpdaterTest {
-
-    @Autowired
-    private AppConfig appConfig;
 
     @Autowired
     private StringFrequencyRepository stringFrequencyRepository;
@@ -37,22 +31,12 @@ public class StringFrequencyUpdaterTest {
 
     private StringFrequencyUpdater stringFrequencyUpdater;
 
-    private RedisServer redisServer;
-
 
     @Before
     public void setUp() throws Exception {
 
-        redisServer = new RedisServer(this.appConfig.getRedisPort());
-        redisServer.start();
-
         stringFrequencyUpdater = new StringFrequencyUpdater(stringFrequencyRepository);
         stringFrequencyGetter = new StringFrequencyGetter(stringFrequencyRepository,hourlyStringFrequencyMapper);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        redisServer.stop();
     }
 
     @Test

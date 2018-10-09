@@ -1,5 +1,7 @@
 package com.mj.string_frequency_manager.string_frequency.web;
 
+import com.mj.string_frequency_manager.ApplicationInitializationUtil;
+import com.mj.string_frequency_manager.config.RedisServerConfig;
 import com.mj.string_frequency_manager.string_frequency.StringFrequencyGetter;
 import com.mj.string_frequency_manager.string_frequency.domain.Past24HourStringFrequency;
 import com.mj.string_frequency_manager.string_frequency.domain.StringFrequency;
@@ -10,8 +12,10 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import redis.embedded.RedisServer;
 
 import java.util.Optional;
 
@@ -22,12 +26,19 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 @RunWith(SpringRunner.class)
-@WebMvcTest(StringFrequencyRestController.class)
+@WebMvcTest(value = StringFrequencyRestController.class)
 public class StringFrequencyRestControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private RedisServer redisServer;
+
+    @MockBean
+    private ApplicationInitializationUtil applicationInitializationUtil;
 
     @MockBean
     private StringFrequencyGetter stringFrequencyGetter;

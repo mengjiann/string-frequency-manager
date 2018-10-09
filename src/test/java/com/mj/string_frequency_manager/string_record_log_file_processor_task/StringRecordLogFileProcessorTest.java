@@ -1,6 +1,5 @@
 package com.mj.string_frequency_manager.string_record_log_file_processor_task;
 
-import com.mj.string_frequency_manager.config.AppConfig;
 import com.mj.string_frequency_manager.string_frequency.HourlyStringFrequencyMapper;
 import com.mj.string_frequency_manager.string_frequency.Past24HourStringFrequencyMapper;
 import com.mj.string_frequency_manager.string_frequency.StringFrequencyGetter;
@@ -10,7 +9,6 @@ import com.mj.string_frequency_manager.string_frequency.domain.StringFrequency;
 import com.mj.string_frequency_manager.string_record.StringRecordMapper;
 import com.mj.string_frequency_manager.string_record_log_file_processor_task.exception.StringRecordLogFileProcessException;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,9 +32,6 @@ import static org.junit.Assert.assertThat;
 public class StringRecordLogFileProcessorTest {
 
     @Autowired
-    private AppConfig appConfig;
-
-    @Autowired
     private StringFrequencyGetter stringFrequencyGetter;
 
     @Autowired
@@ -58,17 +53,9 @@ public class StringRecordLogFileProcessorTest {
     @Before
     public void setUp() throws Exception {
 
-        redisServer = new RedisServer(appConfig.getRedisPort());
-        redisServer.start();
-
         stringRecordLogFileProcessor = new StringRecordLogFileProcessor(
                 stringRecordMapper,hourlyStringFrequencyMapper,past24HourStringFrequencyMapper,stringFrequencyUpdater
         );
-    }
-
-    @After
-    public void tearDown() {
-        redisServer.stop();
     }
 
     @Test
