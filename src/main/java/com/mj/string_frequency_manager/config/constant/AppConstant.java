@@ -12,4 +12,6 @@ public class AppConstant {
 
     public static final String STRING_RECORD_LOG_FILE_PREFIX = "string-generation-";
 
+    public static final int SUCCESS_API_RESPONSE_COUNT = 5;
+
 }
