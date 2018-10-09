@@ -16,7 +16,7 @@ import java.util.UUID;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-@SpringBootTest
+@SpringBootTest(properties = {"spring.profiles.active=test"})
 @RunWith(SpringRunner.class)
 public class StringFrequencyUpdaterTest {
 

@@ -29,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
+@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = StringFrequencyRestController.class)
 public class StringFrequencyRestControllerTest {
